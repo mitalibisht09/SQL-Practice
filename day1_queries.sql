@@ -11,3 +11,9 @@ SHOW TABLES ;
 INSERT INTO students (name,age) VALUES ('Mitali', 19);
 INSERT INTO students (name,age) VALUES ('Rahul' , 20);
 SELECT * FROM students ;
+
+>>
+
+
+
+
