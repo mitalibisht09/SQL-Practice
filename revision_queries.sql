@@ -127,4 +127,23 @@ SELECT * FROM employees
 WHERE name LIKE '%A%';
 
 
+-- find all employees whose salary is NULL
+SELECT * FROM employees
+WHERE salary IS NULL;
+
+-- find employees who are from IT or HR and whose salary is greater than 50,000
+
+SELECT* FROM employees
+WHERE department IN ('IT' , 'HR' )
+AND salary >50000;
+
+-- find employees who are not from IT and have a salary less than 60000
+SELECT * FROM employees
+WHERE department NOT IN ( 'IT')
+AND salary< 60000;
+
+-- find employees whose salary is between 50000 and 80000 AND whose department is not HR
+SELECT * FROM employees
+WHERE salary BETWEEN 50000 AND 80000
+AND department NOT IN ('HR');
 
