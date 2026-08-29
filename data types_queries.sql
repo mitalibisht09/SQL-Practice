@@ -46,4 +46,55 @@ CREATE TABLE hospital_patient(
 );
 
 
+CREATE TABLE employee(
+employee_id INT PRIMARY KEY,
+employee_name VARCHAR(50),
+salary decimal(10,2) CHECK (salary >0),
+department VARCHAR(50),
+status VARCHAR(50) DEFAULT 'Active'
+);
+
+CREATE TABLE student (
+student_id INT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+email VARCHAR(100) UNIQUE,
+age INT
+);
+
+
+CREATE TABLE department (
+department_id INT PRIMARY KEY,
+department_name VARCHAR(50) NOT NULL
+);
+CREATE TABLE employee(
+employee_id INT PRIMARY KEY,
+employee_name VARCHAR(50) NOT NULL,
+depaftment_id INT ,
+FOREIGN KEY (department_id)
+REFERENCES
+department(department_id)
+);
+
+
+CREATE TABLE student(
+student_id INT PRIMARY KEY,
+name VARCHAR(50) NOT NULL,
+email VARCHAR(50) UNIQUE,
+age INT CHECK (age>=18),
+status VARCHAR(20) DEFAULT 'Active'
+);
+
+INSERT INTO student(student_id,name,age,email)VALUES
+(101 , 'Riya' , 18 , 'riya@gmail.com');
+SELECT *FROM student;
+
+-- UPDATE
+UPDATE student
+set age = 19
+WHERE student_id =101;
+
+
+
+
+
 
