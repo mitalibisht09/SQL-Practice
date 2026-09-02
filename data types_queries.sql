@@ -93,8 +93,38 @@ UPDATE student
 set age = 19
 WHERE student_id =101;
 
+ALTER TABLE employees
+ADD email VARCHAR(100);
 
+ALTER TABLE employees
+RENAME COLUMN name TO
+employee_name;
 
+-- in the employees table,change the salary column from INT to decimal(10,2)
+ALTER TABLE employees
+MODIFY	salary DECIMAL(10,2);
+
+-- in the employees table delete /drop the email column
+ALTER TABLE employees
+DROP COLUMN email;
+
+-- in the employees table,rename the table to staff
+ALTER TABLE employees
+RENAME TO staff;
+
+ALTER TABLE staff
+ADD phone VARCHAR(50) UNIQUE;
+
+ALTER TABLE staff
+ADD department VARCHAR(50) DEFAULT 'General';
+
+ALTER TABLE staff 
+DROP INDEX phone;
+
+DROP TABLE students;
+TRUNCATE TABLE students;
+
+DROP TABLE employees;
 
 
 
