@@ -108,3 +108,71 @@ INNER JOIN emp_project ep
    ON e.emp_id = ep.emp_id
 INNER JOIN projects p
     ON ep.project_id = p.project_id;
+    
+    
+-- question 11
+SELECT 
+    d.dept_name,
+    AVG(e.salary) AS avg_salary
+FROM department d
+INNER JOIN employees e
+    ON d.dept_id = e.dept_id
+GROUP BY d.dept_name;
+
+
+SELECT
+   d.dept_name,
+   e.emp_name,
+   e.salary 
+FROM employees e
+INNER JOIN department d
+    ON e.dept_id = d.dept_id
+WHERE e.salary=(
+     SELECT MAX(e2.salary)
+     FROM employees e2
+     WHERE e2.dept_id = e.dept_id
+);
+
+SELECT emp_name ,dept_name
+FROM employees
+NATURAL JOIN department;
+
+
+
+CREATE TABLE salary(
+band_name VARCHAR(20),
+min_salary INT,
+max_salary INT
+);
+
+INSERT INTO salary_bands (band_name, min_salary ,max_salary ) VALUES
+('low',0,39999),
+('Medium',40000,54999),
+('High',55000,100000);
+
+SELECT 
+   e.emp_name,
+   e.salary,
+   sb.band_name
+FROM emplyoees e
+INNER  JOIN salary_bands sb
+    ON e.salary BETWEEN sb.min_salary AND sb.max_salary;
+
+
+
+SELECT dept_name
+FROM departments 
+WHERE dept_id NOT IN(
+    SELECT dept_id
+    FROM employees
+    WHERE dept_id IS NOT NULL
+);
+
+
+SELECT dept_name
+FROM departments d
+WHERE NOT EXISTS (
+   SELECT 1
+   FROM employees e
+   WHERE e.dept_id = d.dept_id
+);
