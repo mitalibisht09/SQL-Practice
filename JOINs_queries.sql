@@ -176,3 +176,101 @@ WHERE NOT EXISTS (
    FROM employees e
    WHERE e.dept_id = d.dept_id
 );
+
+
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(50)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_amount INT
+);
+
+INSERT INTO customers (customer_id, customer_name) VALUES
+(1, 'Rahul'),
+(2, 'Priya'),
+(3, 'Aditya'),
+(4, 'Sneha');   -- has not placed any order
+
+INSERT INTO orders (order_id, customer_id, order_amount) VALUES
+(501, 1, 2000),
+(502, 1, 1500),
+(503, 2, 3000),
+(504, 3, 1000);
+
+-- *1
+SELECT c.customer_name, o.order_id, o.order_amount
+FROM customers c
+LEFT JOIN orders o
+ ON c.customer_id=o.customer_id;
+ 
+ 
+ 
+-- *2
+SELECT c.customer_name
+FROM customers c
+LEFT JOIN orders o
+   ON c.customer_id = o.customer_id
+WHERE o.order_id IS NULL;
+
+-- *3
+SELECT c.customer_name ,SUM( o.order_amount) AS total_spent
+FROM customers c
+LEFT JOIN orders o
+   ON c.customer_id = o.customer_id
+GROUP BY c.customer_name;
+
+-- *4
+SELECT c.customer _name ,COUNT(o.order_id) AS order_count
+FROM customers c
+LEFT JOIN orders o
+     ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+HAVING COUNT(o.order_id) >1;
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(50),
+    price INT
+);
+
+INSERT INTO products (product_id, product_name, price) VALUES
+(1, 'Laptop', 50000),
+(2, 'Mouse', 500),
+(3, 'Keyboard', 1200),
+(4, 'Monitor', 8000);   -- this product has never been ordered
+
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT
+);
+
+INSERT INTO order_items (order_id, product_id, quantity) VALUES
+(501, 1, 1),
+(502, 2, 3),
+(503, 3, 2),
+(504, 1, 1);
+-- product_id 4 (Monitor) never appears here
+
+SELECT p.product_id
+FROM products p
+LEFT JOIN orders_items oi
+   ON p.product_id = oi.product_id
+WHERE oi.product_id IS NULL;
+
+
+SELECT
+p.product_name ,COALESEC(SUM(oi.quantity),0) AS total_quantity_sold
+FROM products p
+LEFT JOIN orders_items oi
+ ON p.product_id =oi.product_id
+ GROUP BY p.products_name;
+
+
+
+
