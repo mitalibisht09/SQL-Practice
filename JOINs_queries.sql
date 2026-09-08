@@ -271,6 +271,43 @@ LEFT JOIN orders_items oi
  ON p.product_id =oi.product_id
  GROUP BY p.products_name;
 
+ SELECT 
+    e1.emp_name AS employee_1,
+    e2.emp_name AS employee_2,
+    e1.dept_id
+FROM employees e1
+INNER JOIN employees e2
+  ON e1.dept_id = e2.dept_id
+  AND e1.emp_id < e2.emp_id;
+  
+SELECT e.emp_name 
+FROM employees e
+LEFT JOIN employees m
+ON e.manager_id = m.emp_id
+WHERE m.emp_id IS NULL;
 
 
+ SELECT
+  m.emp_name AS manager_name,
+  COUNT(e.emp_id)AS num_reports
+FROM employees e
+INNER JOIN employees m
+ ON e.manager_id =m.emp_id
+ GROUP BY m.emp_name;
+ 
+ SELECT emp_name,salary
+ FROM employees
+ WHERE salary>(
+  SELECT AVG (salary) FROM employees
+);
 
+SELECT e.emp_name , d.dept_name ,e.salary
+FROM employees e
+INNER JOIN departments d
+  ON e.dept_id = d.dept_id
+  WHERE e.salary>(
+    SELECT AVG(e2.salary)
+    FROM employees e2
+    WHERE e2.dept_id = e.dept_id
+    );
+ 
