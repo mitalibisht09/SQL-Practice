@@ -310,4 +310,55 @@ INNER JOIN departments d
     FROM employees e2
     WHERE e2.dept_id = e.dept_id
     );
+    
+SELECT c.customer_name ,o.order_id,o.order_amount
+FROM customer c
+LEFT JOIN orders o
+ON c.cutomer_id = o.customer_id
+
+UNION
+SELECT c.customer_name, o.order_id, o.order_amount
+FROM orders o
+LEFT JOIN customer c
+   ON c.customer_id = o.customer_id;
+   
+
+SELECT c.customer_name ,o.order_id,o.order_amount
+FROM customer c
+LEFT JOIN orders o
+ON c.cutomer_id = o.customer_id
+WHERE o.order_id IS NULL
+
+UNION
+SELECT c.customer_name, o.order_id, o.order_amount
+FROM orders o
+LEFT JOIN customer c
+   ON c.customer_id = o.customer_id
+WHERE c.customer_id IS NULL;
+
+-- non-equijoin
+SELECT s.sale_id , s.sale_date,s.amount,q.quater_name
+FROM sales s
+INNER JOIN quaters q
+ON s.sale_date BETWEEN q.start_date AND q.end_date;
+
+
+SELECT q.quarter_name , COALESCE(SUM(s.amount),0)AS total_sales
+FROM quaters q
+LEFT JOIN sales s
+ ON s.sale_date BETWEEN q.start_date AND q.end_date
+ GROUP BY q.quater_name;
  
+SELECT s.sale_id , s.amount, q.quarter_name
+FROM sales s
+INNER JOIN quaters q
+ON s.sale_date BETWEEN q.start_date AND q.end_date
+WHERE s.amount>(
+ SELECT AVG(s2.amount)
+ FROM sales s2
+ INNER JOIN quarters q2
+ ON s2.sale_date BETWEEN q2.start_date AND q2.end_date
+ WHERE q2.quater_name = q.quater_name
+ AND s2.sale_id!=s.sale_id
+ );
+
