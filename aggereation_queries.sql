@@ -74,6 +74,20 @@ INNER JOIN departments d
 WHERE e.salary = (
     SELECT MAX(e2.salary)
     FROM employees e2
-    WHERE e2.dept_id = e.dept_id
+    WHERE e2.dept_id = e.dept_id2
 );
- 
+ SELECT dept_name
+FROM departments d
+WHERE EXISTS (
+    SELECT 1 FROM employees e WHERE e.dept_id = d.dept_id
+);
+
+SELECT dept_name
+FROM departments
+WHERE dept_id NOT IN (
+    SELECT dept_id FROM employees
+);
+
+SELECT emp_name, salary, 
+    (SELECT COUNT(*) FROM employees e2 WHERE e2.dept_id = e.dept_id) AS dept_employee_count
+FROM employees e;
