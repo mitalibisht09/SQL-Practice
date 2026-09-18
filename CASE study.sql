@@ -30,3 +30,31 @@ SELECT
         ELSE 'Individual Contributor'
     END AS role_type
 FROM employees;
+
+
+
+SELECT c.customer_name,
+       SUM(o.amount) AS total_spent
+FROM Customers c
+JOIN Orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_name;
+
+
+SELECT c.customer_name,
+       SUM(o.amount) AS total_spent
+FROM Customers c
+JOIN Orders o
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+ORDER BY total_spent DESC
+LIMIT 1;
+
+
+SELECT c.customer_name,
+       SUM(o.amount) AS total_spent
+FROM Customers c
+JOIN Orders o
+    ON c.customer_id = o.customer_id
+GROUP BY c.customer_name
+HAVING SUM(o.amount) > 5000;
